@@ -72,7 +72,6 @@ def write_json():
     with open(os.path.join(image_root, image_lists[image_num][:-len(image_lists[image_num].split(".")[-1])] + "json"),
               "w", encoding="utf-8") as f:
         json.dump(out_json, f)
-        print("{}文件完成".format(image_lists[image_num]))
 
 
 def read_json():
@@ -145,7 +144,7 @@ label_img.pack()
 labelframe = tkinter.LabelFrame(panedwindow, text='标签选择（支持多选）')
 labelframe.pack()
 
-with open("labels.conf", "r", encoding="utf-8") as f:
+with open("labels.ini", "r", encoding="utf-8") as f:
     lines = f.readlines()
 type_lists = [line.rstrip("\n") for line in lines]
 var_dict = {}
@@ -158,8 +157,8 @@ for type_name in type_lists:
     checkbotton_dict[type_name] = checkbotton
     checkbotton.pack(anchor="w")
 
-btn_before = tkinter.Button(panedwindow, text='上一张', command=lambda: pre_image(), width=5, height=20)
-btn_after = tkinter.Button(panedwindow, text='下一张', command=lambda: next_image(), width=5, height=20)
+btn_before = tkinter.Button(panedwindow, text='上一张', command=lambda: pre_image(), width=5, height=1)
+btn_after = tkinter.Button(panedwindow, text='下一张', command=lambda: next_image(), width=5, height=1)
 
 btn_before.place(x=240, y=470, anchor='w')
 btn_after.place(x=340, y=470, anchor='w')

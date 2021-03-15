@@ -12,3 +12,6 @@ python3 -m venv env #  创建虚拟环境
 pip install Pillow # 安装依赖
 python3 tool.py
 ```
+
+
+![](example.jpg)
