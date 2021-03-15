@@ -63,15 +63,20 @@ def pre_image():
 
 
 def write_json():
-    global image_num, image_lists, image_root, var_dict, type_lists
+    global image_num, image_lists, image_root, var_dict, type_lists, global_dict
     out_json = {"image_name": image_lists[image_num]}
     for key, checkVar in var_dict.items():
         # print(key,checkVar ,type(checkVar)==int)
         out_json[key] = checkVar.get()
-
+    print(out_json)
+    global_dict[image_lists[image_num]] = out_json
     with open(os.path.join(image_root, image_lists[image_num][:-len(image_lists[image_num].split(".")[-1])] + "json"),
               "w", encoding="utf-8") as f:
-        json.dump(out_json, f)
+        json.dump(out_json, f, ensure_ascii=False)
+
+    # with open(image_root + "/results.json", "a+", encoding="utf-8") as f:
+    #     json.dump(out_json, f, ensure_ascii=False)
+    #     f.write('\r\n')
 
 
 def read_json():
@@ -97,19 +102,35 @@ def read_json():
 
 def next_image():
     # 保存json
-    global image_num, image_lists, image_root
+    global image_num, image_lists, image_root, root
     write_json()
     # 显示
     global image_num, image_lists, image_root
+
     image_num = image_num + 1
     image_num = min(len(image_lists) - 1, image_num)
     if (len(image_lists) > 0 and image_num >= 0 and image_num < len(image_lists)):
         show_image_value(os.path.join(image_root, image_lists[image_num]))
 
 
+def save_images():
+    result_file = open(image_root + '/results.json', 'a+', encoding='utf-8')
+    f_list = os.listdir(image_root)
+    # print f_list
+    for i in f_list:
+        # os.path.splitext():分离文件名与扩展名
+        if os.path.splitext(i)[1] == '.json' and i != 'results.json':
+            with open(image_root + '/' + i, "r", encoding="utf-8") as load_f:
+                result_file.write(load_f.read() + '\r\n')
+            os.remove(image_root + '/' + i)
+    result_file.close()
+    root.quit()
+
+
 image_lists = []
 image_root = []
 image_num = -1
+global_dict = {}
 
 root = tkinter.Tk()
 root.attributes("-topmost", False)
@@ -159,9 +180,11 @@ for type_name in type_lists:
 
 btn_before = tkinter.Button(panedwindow, text='上一张', command=lambda: pre_image(), width=5, height=1)
 btn_after = tkinter.Button(panedwindow, text='下一张', command=lambda: next_image(), width=5, height=1)
+save_after = tkinter.Button(panedwindow, text='保存并退出', command=lambda: save_images(), width=8, height=1)
 
 btn_before.place(x=240, y=470, anchor='w')
 btn_after.place(x=340, y=470, anchor='w')
+save_after.place(x=500, y=470, anchor='w')
 
 panedwindow.add(label_img)
 panedwindow.add(labelframe)
