@@ -20,8 +20,7 @@ python3 tool.py
 
 
 2. 对每张图片进行分类标注, 然后点击`下一步`
-   ![](example.jpg)
-
+   ![img_1.png](img_1.png)
 
 3. 所有图片标注完成后点击`保存并退出`，在图片目录会生成`results.json`文件，文件内容如下
    ![img.png](img.png)
