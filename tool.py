@@ -74,9 +74,9 @@ def write_json():
               "w", encoding="utf-8") as f:
         json.dump(out_json, f, ensure_ascii=False)
 
-    with open(image_root + "/results.json", "a+", encoding="utf-8") as f:
-        json.dump(out_json, f, ensure_ascii=False)
-        f.write('\r\n')
+    # with open(image_root + "/results.json", "a+", encoding="utf-8") as f:
+    #     json.dump(out_json, f, ensure_ascii=False)
+    #     f.write('\r\n')
 
 
 def read_json():
