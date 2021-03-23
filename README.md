@@ -12,7 +12,7 @@ cd img-mark-tool
 python3 -m venv env #  创建虚拟环境
 . env/bin/activate # 切换至虚拟环境
 pip install Pillow # 安装依赖
-python3 tool.py
+python3 tool.py # 运行工具
 ```
 
 1. 打开图片目录
