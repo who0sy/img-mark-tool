@@ -165,8 +165,29 @@ label_img.pack()
 labelframe = tkinter.LabelFrame(panedwindow, text='标签选择（支持多选）')
 labelframe.pack()
 
+# with open("labels.ini", "r", encoding="utf-8") as f:
+#     lines = f.readlines()
+
+# 读取labels.ini文件内容，并将每个标签与对应的数字键关联起来
+label_mapping = {}
 with open("labels.ini", "r", encoding="utf-8") as f:
     lines = f.readlines()
+    for index, line in enumerate(lines, start=1):
+        label_mapping[str(index)] = line.strip()
+
+# 创建一个函数，用于切换对应标签的选中状态
+def toggle_label_selection(event):
+    key_pressed = event.char  # 获取按键字符
+    if key_pressed in label_mapping:
+        label_name = label_mapping[key_pressed]
+        # 切换对应标签的选中状态
+        checkbotton_dict[label_name].toggle()
+
+# 绑定数字键1, 2, 3到toggle_label_selection函数
+root.bind('1', toggle_label_selection)
+root.bind('2', toggle_label_selection)
+root.bind('3', toggle_label_selection)
+
 type_lists = [line.rstrip("\n") for line in lines]
 var_dict = {}
 checkbotton_dict = {}
@@ -177,6 +198,9 @@ for type_name in type_lists:
     checkbotton = tkinter.Checkbutton(labelframe, text=type_name, variable=checkVar)
     checkbotton_dict[type_name] = checkbotton
     checkbotton.pack(anchor="w")
+
+root.bind('<Left>', lambda event: pre_image())  # 绑定左箭头键到上一张图片
+root.bind('<Right>', lambda event: next_image())  # 绑定右箭头键到下一张图片
 
 btn_before = tkinter.Button(panedwindow, text='上一张', command=lambda: pre_image(), width=5, height=1)
 btn_after = tkinter.Button(panedwindow, text='下一张', command=lambda: next_image(), width=5, height=1)
